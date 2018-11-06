@@ -15,8 +15,7 @@ migrate = Migrate(app, db)
 
 @app.route('/')
 def index():
-    posts = Post.query.all()
-    # SELECT * FROM posts;
+    posts = Post.query.all()    # SELECT * FROM posts;
     return render_template('index.html', posts=posts)
 
 @app.route('/posts/new')
@@ -31,3 +30,8 @@ def create():
     db.session.add(post)
     db.session.commit()
     return render_template('create.html', post=post)
+    
+@app.route('/posts/<int:id>')
+def read(id):
+    post = Post.query.get(id)   # SELECT * FROM posts WHERE id=1;
+    return render_template('read.html', post=post)
