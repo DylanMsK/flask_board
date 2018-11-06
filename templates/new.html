@@ -5,7 +5,7 @@
     <!--    <input type="text" name="content"/>-->
     <!--    <input type="submit" value="Submit"/>-->
     <!--</form>-->
-    <form action='/posts/create'>
+    <form action='/posts/create' method='post'>
         <div class="form-group">
             <label for="title">제목</label>
             <input type="text" class="form-control" id="title" name='title' placeholder="제목을 입력해 주세요">
@@ -13,7 +13,7 @@
         </div>
         <div class="form-group">
             <label for="content">내용</label>
-            <textarea name="content" id="content"></textarea>
+            <textarea name="content" id="content" class='form-control'></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
