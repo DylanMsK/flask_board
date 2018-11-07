@@ -56,6 +56,7 @@ def update(id):
     post = Post.query.get(id)
     post.title = request.form.get('title')
     post.content = request.form.get('content')
+    post.created_at = request.form.get('created_at')
     db.session.commit()
     return redirect('/posts/{}'.format(id))
     
