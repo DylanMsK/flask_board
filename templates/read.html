@@ -6,4 +6,17 @@
     <h1>{{post.created_at}}</h1>
     <a href="/posts/{{post.id}}/delete">삭제</a>
     <a href="/posts/{{post.id}}/edit">수정</a>
+    <form action='/posts/{{post.id}}/comment' method='post'>
+        <input type="text" name="user_id" placeholder='아이디 입력'/>
+        <input type="text" name="content" placeholder='댓글을 입력하세요'/>
+        <input type="submit" value="Submit"/>
+    </form>
+    {% for comment in post.comments %}
+        <p><b>{{comment.user_id}}</b>
+        <br>{{comment.content}}
+        <br>{{comment.created_at}}
+        <br><a href='/comment/{{comment.id}}/update'>수정</a>
+            <a href='/comment/{{comment.id}}/delete'>삭제</a>
+        </p>
+    {% endfor %}
 {% endblock %}

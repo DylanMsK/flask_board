@@ -11,6 +11,7 @@ class Post(db.Model):
     title = db.Column(db.String, nullable=False)    # null값 불가능
     content = db.Column(db.Text)
     created_at = db.Column(db.DateTime)
+    comments = db.relationship('Comment', backref='post')
     
     # 생성자
     def __init__(self, title, content):
@@ -18,3 +19,16 @@ class Post(db.Model):
         self.content = content
         self.created_at = datetime.datetime.now()
         
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.String)
+    content = db.Column(db.String)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    created_at = db.Column(db.DateTime)
+    
+    def __init__(self, content, user_id):
+        self.content = content
+        self.created_at = datetime.datetime.now()
+        self.user_id = user_id

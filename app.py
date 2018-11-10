@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 # DB 설정
 app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql:///board'   # 초기에 DB create 할때 지정한 db이름 board
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL')
+# app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL')
 app.config["SQLALCHEMY_TRACK_MODIFICATION"] = False
 db.init_app(app)
 migrate = Migrate(app, db)
@@ -60,4 +60,21 @@ def update(id):
     post.created_at = request.form.get('created_at')
     db.session.commit()
     return redirect('/posts/{}'.format(id))
+
+@app.route('/posts/<int:post_id>/comment', methods=['POST'])
+def comment(post_id):
+    content = request.form.get('content')
+    user_id = request.form.get('user_id')
+    comment = Comment(content, user_id)
+    post = Post.query.get(post_id)
+    post.comments.append(comment)
+    db.session.add(comment)
+    db.session.commit()
+    return redirect('/posts/{}'.format(post_id))
     
+@app.route('/comment/<int:comment_id>/delete')
+def comment_delete(comment_id):
+    comment = Comment.query.get(comment_id)
+    db.session.delete(comment)
+    db.session.commit()
+    return redirect('/posts/{}'.format(comment.post_id))
